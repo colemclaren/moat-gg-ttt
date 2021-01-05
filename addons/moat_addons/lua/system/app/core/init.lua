@@ -462,7 +462,6 @@ local cl = {
 	'plugins/moat/modules/scoreboard/titles/cl_moat_titles.lua',
 	'plugins/moat/modules/settings/cl_binds.lua',
 	'plugins/moat/modules/settings/cl_eqmenu.lua',
-	'plugins/moat/modules/settings/cl_help.lua',
 	'plugins/moat/modules/snap/init.lua',
 	'plugins/moat/modules/snap/utils.lua',
 	'plugins/moat/modules/snap/client/client.lua',

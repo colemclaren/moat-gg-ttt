@@ -57,7 +57,7 @@ end
 
 function _contracts()
     --[[local dev_server = GetHostName():lower():find("dev")
-	if (dev_server) then return end]]
+    if (dev_server) then return end]]
     local db = MINVENTORY_MYSQL
     local dq = db:query("CREATE TABLE IF NOT EXISTS `moat_contracts_v2` ( ID int NOT NULL AUTO_INCREMENT, `contract` varchar(64) NOT NULL, `start_time` TIMESTAMP NOT NULL, `contract_id` int, `updating_server` VARCHAR(32), PRIMARY KEY (ID) ) ")
 
@@ -146,7 +146,7 @@ function _contracts()
                 d[k].bnty.runfunc(d[k].mods, d[k].id, id + 1)
             end
 
-            MsgC(Color(0, 255, 0), "Global Bounty with ID " .. d[k].id .. d[k].bnty.name .. " has Loaded.\n")
+            MsgC(Color(0, 255, 0), "Global Bounty with ID " .. d[k].id .. d[k].bnty.name .. " has refreshed.\n")
         end
 
         MOAT_BOUNTIES.ActiveBounties = table.Copy(d)
@@ -170,6 +170,9 @@ function _contracts()
         local q = db:query("SELECT * FROM bounties_current ORDER BY ID DESC LIMIT 1;")
 
         function q:onSuccess(d)
+            if (d[1] == nil) then
+                global_bounties_refresh()
+            end
             local idd = d[1].ID
             d = util.JSONToTable(d[1].bounties)
 
@@ -782,16 +785,16 @@ local weapon_challenges = {
             ["weapon_ttt_shotgun"] = true,
             ["weapon_ttt_te_benelli"] = true,
             ["weapon_zm_shotgun"] = true,
-			["weapon_ttt_dual_shotgun"] = true,
+            ["weapon_ttt_dual_shotgun"] = true,
         },
 "ANY Shotgun Weapon", "Shotgun"
     },
     {
         {
             ["weapon_zm_mac10"] = true,
-			["weapon_ttt_te_mac"] = true,
-			["weapon_ttt_mac11"] = true,
-			["weapon_ttt_dual_mac10"] = true
+            ["weapon_ttt_te_mac"] = true,
+            ["weapon_ttt_mac11"] = true,
+            ["weapon_ttt_dual_mac10"] = true
         },
 "the MAC10 or the MAC10 TE or the MAC11", "MAC10 + MAC11"
     },
@@ -810,7 +813,7 @@ local weapon_challenges = {
     {
         {
             ["weapon_ttt_ak47"] = true,
-			["weapon_ttt_te_ak47"] = true
+            ["weapon_ttt_te_ak47"] = true
         },
 "the AK47 or the AK47 TE", "AK47"
     },
@@ -829,24 +832,24 @@ local weapon_challenges = {
     {
         {
             ["weapon_ttt_sg550"] = true,
-			["weapon_ttt_te_sg550"] = true,
-			["weapon_ttt_dual_sg550"] = true
+            ["weapon_ttt_te_sg550"] = true,
+            ["weapon_ttt_dual_sg550"] = true
         },
 "the SG550 or the SG550 TE", "SG550"
     },
     {
         {
             ["weapon_ttt_m16"] = true,
-			["weapon_ttt_te_m4a1"] = true,
-			["weapon_ttt_te_m14"] = true,
-			["weapon_ttt_dual_m16"] = true
+            ["weapon_ttt_te_m4a1"] = true,
+            ["weapon_ttt_te_m14"] = true,
+            ["weapon_ttt_dual_m16"] = true
         },
 "the M16 or the M4A1 or the M14", "M16 + M4A1 + M14"
     },
     {
         {
             ["weapon_zm_sledge"] = true,
-			["weapon_ttt_dual_huge"] = true
+            ["weapon_ttt_dual_huge"] = true
         },
 "the H.U.G.E-249", "H.U.G.E-249"
     },
@@ -859,15 +862,15 @@ local weapon_challenges = {
     {
         {
             ["weapon_zm_revolver"] = true,
-			["weapon_ttt_te_deagle"] = true,
-			["weapon_ttt_golden_deagle"] = true
+            ["weapon_ttt_te_deagle"] = true,
+            ["weapon_ttt_golden_deagle"] = true
         },
 "the Deagle or the Deagle TE", "Deagle"
     },
     {
         {
             ["weapon_ttt_ump45"] = true,
-			["weapon_ttt_dual_ump"] = true
+            ["weapon_ttt_dual_ump"] = true
         },
 "the UMP-45", "UMP-45"
     },
@@ -888,7 +891,7 @@ local weapon_challenges = {
             ["weapon_ttt_shotgun"] = true,
             ["weapon_ttt_te_benelli"] = true,
             ["weapon_zm_shotgun"] = true,
-			["weapon_ttt_dual_shotgun"] = true
+            ["weapon_ttt_dual_shotgun"] = true
         },
 "ANY Shotty Weapon", "Shotty"
     },
@@ -901,21 +904,21 @@ local weapon_challenges = {
     {
         {
             ["weapon_zm_rifle"] = true,
-			["weapon_ttt_te_m24"] = true
+            ["weapon_ttt_te_m24"] = true
         },
 "the Rifle or the M24", "Rifle + M24"
     },
     {
         {
             ["weapon_ttt_galil"] = true,
-			["weapon_ttt_te_sako"] = true
+            ["weapon_ttt_te_sako"] = true
         },
 "the Galil or the Sako", "Galil + Sako"
     },
     {
         {
             ["weapon_ttt_sg552"] = true,
-			["weapon_ttt_te_sr25"] = true
+            ["weapon_ttt_te_sr25"] = true
         },
 "the SG552 or the SR-25", "SG552 + SR-25"
     },
@@ -930,7 +933,7 @@ local weapon_challenges = {
             ["weapon_ttt_shotgun"] = true,
             ["weapon_ttt_te_benelli"] = true,
             ["weapon_zm_shotgun"] = true,
-			["weapon_ttt_dual_shotgun"] = true
+            ["weapon_ttt_dual_shotgun"] = true
         },
 "ANY Buckshot Weapon", "Buckshot"
     },
@@ -949,22 +952,22 @@ local weapon_challenges = {
     {
         {
             ["weapon_ttt_famas"] = true,
-			["weapon_ttt_te_famas"] = true
+            ["weapon_ttt_te_famas"] = true
         },
 "the Famas or the Famas TE", "Famas"
     },
     {
         {
             ["weapon_ttt_glock"] = true,
-			["weapon_ttt_te_glock"] = true,
-			["weapon_ttt_dual_glock"] = true
+            ["weapon_ttt_te_glock"] = true,
+            ["weapon_ttt_dual_glock"] = true
         },
 "the Glock or the Glock TE", "Glock"
     },
     {
         {
             ["weapon_ttt_mp5"] = true,
-			["weapon_ttt_te_mp5"] = true
+            ["weapon_ttt_te_mp5"] = true
         },
 "the MP5 or the MP5 TE", "MP5"
     }
@@ -1045,7 +1048,7 @@ addcontract("Melee Hunter", {
             if not IsValid(inf) then return end
 
             --print("C12367")
-            --	print(inf,inf.Weapon.Kind,inf.Weapon.Kind == WEAPON_MELEE,att:IsPlayer(),inf:IsWeapon(),WasRightfulKill(att, ply))
+            --  print(inf,inf.Weapon.Kind,inf.Weapon.Kind == WEAPON_MELEE,att:IsPlayer(),inf:IsWeapon(),WasRightfulKill(att, ply))
             if (att:IsValid() and att:IsPlayer() and ply ~= att and IsValid(inf) and inf:IsWeapon() and inf.Weapon.Kind and inf.Weapon.Kind == WEAPON_MELEE and WasRightfulKill(att, ply)) then
                 --print("Cotnract increase")
                 contract_increase(att, 1)
@@ -1080,7 +1083,7 @@ local weapon_challenges2 = {
         },
 "the Peacekeeper", "Peacekeeper"
     },
-	{
+    {
         {
             ["weapon_ttt_te_g36c"] = true
         },
@@ -1194,11 +1197,11 @@ function MOAT_BOUNTIES:RewardPlayer(ply, bounty_id)
     local t = self.Bounties[bounty_id].tier
     -- moat_DropHoliday(ply, 1)
     if (t and self:HighEndChance(t)) then
-    	local rarity = 5
-    	if (t > 1) then
-    		rarity = MOAT_BOUNTIES.Rewards(5, t == 2 and 6 or 7)
-    	end
-    	ply:m_DropInventoryItem(rarity)
+        local rarity = 5
+        if (t > 1) then
+            rarity = MOAT_BOUNTIES.Rewards(5, t == 2 and 6 or 7)
+        end
+        ply:m_DropInventoryItem(rarity)
     end
     local mutator = {"High-End Stat Mutator", "High-End Talent Mutator"}
     mutator = mutator[math.random(2)]
@@ -1922,17 +1925,7 @@ function MOAT_BOUNTIES:GetRandomBounty(tier_)
     return sql.SQLStr(util.TableToJSON(bounty_tbl), true)
 end
 
-function game.GetIP()
-    local hostip = GetConVarString("hostip") -- GetConVarNumber is inaccurate
-    hostip = tonumber(hostip)
-    local ip = {}
-    ip[1] = bit.rshift(bit.band(hostip, 0xFF000000), 24)
-    ip[2] = bit.rshift(bit.band(hostip, 0x00FF0000), 16)
-    ip[3] = bit.rshift(bit.band(hostip, 0x0000FF00), 8)
-    ip[4] = bit.band(hostip, 0x000000FF)
-
-    return table.concat(ip, ".") .. ":" .. GetConVarString("hostport")
-end
+game.GetIP = function() return "1.1.1.1:27015" end
 
 function MOAT_BOUNTIES.ResetBounties()
 end
